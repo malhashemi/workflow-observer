@@ -786,13 +786,18 @@ function RunDetail({
   const [phase, setPhase] = useState(
     r.agents.find((a) => a.state === "running")?.phase ?? r.phases[0]?.title ?? "",
   );
-  const [agent, setAgent] = useState(
-    r.agents.find((a) => a.state === "running")?.id ?? r.agents[0]?.id ?? "",
-  );
+  const [expandedAgents, setExpandedAgents] = useState<Record<string, string | undefined>>({});
   const [activityQuery, setActivityQuery] = useState("");
   const [activityAgent, setActivityAgent] = useState("all");
   const [eventLimit, setEventLimit] = useState(60);
+  const agent = expandedAgents[phase];
   const selected = r.agents.find((a) => a.id === agent);
+  const toggleAgent = (a: Agent) => {
+    setExpandedAgents((current) => ({
+      ...current,
+      [a.phase]: current[a.phase] === a.id ? undefined : a.id,
+    }));
+  };
   const events = r.agents
     .flatMap((a) => a.events)
     .filter(
@@ -969,10 +974,7 @@ function RunDetail({
                   <button
                     className="phase-header"
                     aria-expanded={phase === p.title}
-                    onClick={() => {
-                      setPhase(phase === p.title ? "" : p.title);
-                      if (!agents.some((a) => a.id === agent)) setAgent(agents[0]?.id ?? "");
-                    }}
+                    onClick={() => setPhase(phase === p.title ? "" : p.title)}
                   >
                     <span className={`phase-index ${state}`}>
                       {state === "completed" ? "✓" : String(i + 1).padStart(2, "0")}
@@ -1034,7 +1036,7 @@ function RunDetail({
                               <button
                                 className="agent-expand"
                                 aria-expanded={agent === a.id}
-                                onClick={() => setAgent(agent === a.id ? "" : a.id)}
+                                onClick={() => toggleAgent(a)}
                               >
                                 <span className="agent-symbol">
                                   <Icon />
@@ -1054,8 +1056,9 @@ function RunDetail({
                               <Badge state={a.state} />
                               <button
                                 className="icon-button"
-                                aria-label={`Expand ${a.label}`}
-                                onClick={() => setAgent(agent === a.id ? "" : a.id)}
+                                aria-label={`${agent === a.id ? "Collapse" : "Expand"} ${a.label}`}
+                                aria-expanded={agent === a.id}
+                                onClick={() => toggleAgent(a)}
                               >
                                 <Icon name="arrow" size={15} />
                               </button>
@@ -1114,7 +1117,7 @@ function RunDetail({
                         onClick={() => {
                           setTab("overview");
                           setPhase(a.phase);
-                          setAgent(a.id);
+                          setExpandedAgents((current) => ({ ...current, [a.phase]: a.id }));
                         }}
                       >
                         {a.label}
