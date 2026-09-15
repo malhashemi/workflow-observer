@@ -1,6 +1,6 @@
 {
   "name": "workflow-observer",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "private": false,
   "type": "module",
   "scripts": {
@@ -47,7 +47,14 @@
   "bugs": {
     "url": "https://github.com/malhashemi/workflow-observer/issues"
   },
-  "keywords": ["claude", "workflow", "agents", "observer", "local", "bun"],
+  "keywords": [
+    "claude",
+    "workflow",
+    "agents",
+    "observer",
+    "local",
+    "bun"
+  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

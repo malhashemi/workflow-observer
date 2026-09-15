@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/workflow-observer"><img src="https://img.shields.io/npm/v/workflow-observer?style=flat-square&amp;color=3eebff&amp;labelColor=0b1c25" alt="npm version" /></a>
-  <a href="https://github.com/malhashemi/workflow-observer/actions/workflows/ci.yml"><img src="https://github.com/malhashemi/workflow-observer/actions/workflows/ci.yml/badge.svg" alt="CI and release on Blacksmith" /></a>
+  <a href="https://github.com/malhashemi/workflow-observer/actions/workflows/ci.yml"><img src="https://github.com/malhashemi/workflow-observer/actions/workflows/ci.yml/badge.svg" alt="CI and release" /></a>
   <a href="https://github.com/malhashemi/workflow-observer/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-3eebff?style=flat-square&amp;labelColor=0b1c25" alt="MIT license" /></a>
   <a href="https://bun.sh"><img src="https://img.shields.io/badge/Bun-%E2%89%A51.3.14-fbf0df?style=flat-square&amp;labelColor=0b1c25" alt="Bun 1.3.14 or newer" /></a>
 </p>
@@ -302,7 +302,7 @@ The interface follows the Agent964 design system and the Balanced playground dir
 
 Bug reports and focused PRs are welcome. See [CONTRIBUTING.md](https://github.com/malhashemi/workflow-observer/blob/main/CONTRIBUTING.md) for local setup and checks. Run `bun run demo` for an isolated workspace with synthetic workflows.
 
-CI uses **Blacksmith runners**. To release, run `bun run release:prepare patch` on your PR branch and commit the version changes. Merging to `main` runs checks, publishes the tested npm archive and creates a GitHub release. Merges without a new version skip publishing. The [release guide](https://github.com/malhashemi/workflow-observer/blob/main/docs/releasing.md) covers setup and retries.
+CI runs on **GitHub-hosted runners** and publishes through **npm trusted publishing**, with provenance and no stored npm token. To release, run `bun run release:prepare patch` on your PR branch and commit the version changes. Merging to `main` runs checks, publishes the tested npm archive and creates a GitHub release. Merges without a new version skip publishing. The [release guide](https://github.com/malhashemi/workflow-observer/blob/main/docs/releasing.md) covers setup and retries.
 
 ## License
 
