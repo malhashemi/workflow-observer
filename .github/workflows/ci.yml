@@ -17,7 +17,7 @@ concurrency:
 jobs:
   check:
     name: Check and package
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -44,7 +44,7 @@ jobs:
     needs: check
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     # npm trusted publishing requires a GitHub-hosted runner.
-    # All dependency installation, builds and tests stay on Blacksmith above.
+    # Publish only the archive produced and tested by the check job.
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

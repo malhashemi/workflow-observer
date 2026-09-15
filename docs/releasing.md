@@ -1,6 +1,6 @@
 # Releasing
 
-Builds and tests run on Blacksmith. A push to `main`, including a merged PR, builds the app, runs TypeScript/OXC checks and tests, and exercises the packed CLI with isolated data. A small GitHub-hosted release job publishes that tested archive through npm trusted publishing, then creates a matching GitHub tag and release. A version already on npm is skipped. No npm token is stored in GitHub.
+CI runs on GitHub-hosted runners. A push to `main`, including a merged PR, builds the app, runs TypeScript/OXC checks and tests, and exercises the packed CLI with isolated data. A separate release job publishes that tested archive through npm trusted publishing, then creates a matching GitHub tag and release. A version already on npm is skipped. No npm token is stored in GitHub.
 
 ## Release a change
 
@@ -18,11 +18,11 @@ Version preparation only changes package metadata and the lockfile. It does not 
 
 ## One-time setup
 
-1. Enable the Blacksmith GitHub App for this repository. **Check and package** uses `blacksmith-4vcpu-ubuntu-2404`.
+1. Enable GitHub Actions for this repository. Both jobs use `ubuntu-latest`.
 2. In [the npm package settings](https://www.npmjs.com/package/workflow-observer/access), add a **GitHub Actions** trusted publisher with owner **malhashemi**, repository **workflow-observer**, and workflow filename **ci.yml**. Leave the environment name empty and allow direct publishing. The package must already exist; use the manual bootstrap below for a new package.
 3. Require **Check and package** before merging into `main` in the repository's branch rules.
 
-[npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) currently supports GitHub-hosted runners, not self-hosted runners. Only the publishing job uses `ubuntu-latest`, with `id-token: write` and Node 24. npm exchanges the workflow's short-lived OIDC identity for permission to publish and attaches provenance. Builds and tests remain on Blacksmith; Observer itself runs on Bun.
+[npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) currently supports GitHub-hosted runners, not self-hosted runners. The publishing job uses `id-token: write` and Node 24. npm exchanges the workflow's short-lived OIDC identity for permission to publish and attaches provenance. Observer itself runs on Bun.
 
 For the first publication, from a checked-out release commit:
 
@@ -40,7 +40,7 @@ Use the archive for the version in `package.json`. After bootstrap, configure it
 
 ## Retry a release
 
-Fix a trusted-publisher mismatch or Blacksmith access issue, then rerun the failed workflow from Actions. Check the exact owner, repository and workflow filename against npm's saved publisher. Transient registry errors fail explicitly instead of being treated as an unpublished version.
+Fix the reported failure, then rerun the workflow from Actions. For authentication failures, check the exact owner, repository and workflow filename against npm's saved publisher. Transient registry errors fail explicitly instead of being treated as an unpublished version.
 
 If npm succeeded but GitHub release creation failed, the published version is immutable. Create the missing release against the original successful run's commit, and attach its `npm-package` artifact:
 
