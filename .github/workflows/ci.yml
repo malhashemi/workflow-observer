@@ -75,7 +75,8 @@ jobs:
         env:
           ARCHIVE: ${{ steps.package.outputs.archive }}
         run: |
-          npm publish "release/$ARCHIVE" --access public --ignore-scripts --provenance
+          test -f "./release/$ARCHIVE"
+          npm publish "./release/$ARCHIVE" --access public --ignore-scripts --provenance
       - name: Create GitHub release
         if: steps.package.outputs.published == 'false'
         env:
