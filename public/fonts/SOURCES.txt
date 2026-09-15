@@ -1,0 +1,9 @@
+Geist Sans and Geist Mono
+Upstream: https://github.com/vercel/geist-font
+License: OFL.txt (SIL Open Font License 1.1)
+
+Space Grotesk variable webfont (unmodified)
+Upstream: https://github.com/floriankarsten/space-grotesk
+Revision: 03507d024a01282884232081fc6011c09ff4e849
+File: fonts/woff2/SpaceGrotesk[wght].woff2
+License: SpaceGrotesk-OFL.txt (SIL Open Font License 1.1)

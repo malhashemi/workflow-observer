@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "claudeDirectories": [
+    "~/.claude"
+  ],
+  "port": 4319,
+  "openBrowser": true,
+  "modelAliases": {},
+  "access": {
+    "lanEnabled": false,
+    "tailscaleEnabled": false,
+    "tailscalePort": 8443,
+    "sharingDefault": "tailscale",
+    "openAddress": "local"
+  }
+}

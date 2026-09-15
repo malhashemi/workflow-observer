@@ -1,0 +1,17 @@
+#!/bin/zsh
+set -eu
+app_dir=${0:A:h:h}
+cd -- "$app_dir"
+bun_path=$(command -v bun || true)
+if [[ -z "$bun_path" ]]; then
+  for candidate in /opt/homebrew/bin/bun /usr/local/bin/bun "$HOME/.bun/bin/bun"; do
+    if [[ -x "$candidate" ]]; then bun_path=$candidate; break; fi
+  done
+fi
+if [[ -z "$bun_path" ]]; then print 'Bun is required: https://bun.sh'; exit 1; fi
+case "${1:-open}" in
+ open) exec "$bun_path" "$app_dir/dist/cli.js" --background ;;
+ start) exec "$bun_path" "$app_dir/dist/cli.js" --background --no-open ;;
+ stop) exec "$bun_path" "$app_dir/dist/cli.js" stop ;;
+ *) exec "$bun_path" "$app_dir/dist/cli.js" "$@" ;;
+esac

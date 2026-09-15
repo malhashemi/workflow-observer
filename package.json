@@ -1,0 +1,70 @@
+{
+  "name": "workflow-observer",
+  "version": "0.9.4",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run build && bun --watch src/server.ts",
+    "start": "bun src/cli.ts",
+    "test": "bun test",
+    "check": "tsc --noEmit && oxlint src tests scripts && oxfmt --check src tests scripts",
+    "format": "oxfmt src tests scripts",
+    "build": "bun src/build.ts",
+    "prepack": "bun run build",
+    "pack": "bun pm pack",
+    "test:package": "bun pm pack && bun tests/package-smoke.ts",
+    "release:prepare": "bun scripts/prepare-release.ts",
+    "demo": "bun run build && bun scripts/demo.ts"
+  },
+  "devDependencies": {
+    "@base-ui/react": "1.8.0",
+    "@opencode-ai/models": "latest",
+    "@pierre/diffs": "^1.4.2",
+    "@radix-ui/react-hover-card": "^1.1.23",
+    "@types/bun": "latest",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "effect": "^3.0.0",
+    "fake-indexeddb": "^6.2.5",
+    "jsqr": "^1.4.0",
+    "oxfmt": "latest",
+    "oxlint": "latest",
+    "qrcode": "^1.5.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "shiki": "^4.4.3",
+    "typescript": "latest"
+  },
+  "description": "A local web app for observing Claude Workflow runs across projects and profiles",
+  "license": "MIT",
+  "author": "Agent964",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malhashemi/workflow-observer.git"
+  },
+  "homepage": "https://github.com/malhashemi/workflow-observer#readme",
+  "bugs": {
+    "url": "https://github.com/malhashemi/workflow-observer/issues"
+  },
+  "keywords": ["claude", "workflow", "agents", "observer", "local", "bun"],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bin": {
+    "workflow-observer": "dist/cli.js"
+  },
+  "files": [
+    "dist/",
+    "vendor/ultracode/LICENSE",
+    "vendor/ultracode/vendor/acorn.LICENSE",
+    "README.md",
+    "LICENSE",
+    "observer.config.example.json",
+    "THIRD_PARTY_LICENSES.txt"
+  ],
+  "engines": {
+    "bun": ">=1.3.14"
+  }
+}

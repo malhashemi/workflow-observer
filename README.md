@@ -1,6 +1,32 @@
 # Workflow Observer
 
-A standalone local web app for current and completed Claude Workflow tool runs. One Bun process serves a React interface and indexes your Claude profiles in SQLite. Effect manages settings updates, discovery, model-data refresh and browser observation lifetimes; OXC handles linting and formatting.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/malhashemi/workflow-observer/main/docs/assets/cover.svg" alt="Workflow Observer — follow the work, understand the cost, trace it back to the evidence" width="100%" />
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/workflow-observer"><img src="https://img.shields.io/npm/v/workflow-observer?style=flat-square&amp;color=3eebff&amp;labelColor=0b1c25" alt="npm version" /></a>
+  <a href="https://github.com/malhashemi/workflow-observer/actions/workflows/ci.yml"><img src="https://github.com/malhashemi/workflow-observer/actions/workflows/ci.yml/badge.svg" alt="CI and release on Blacksmith" /></a>
+  <a href="https://github.com/malhashemi/workflow-observer/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-3eebff?style=flat-square&amp;labelColor=0b1c25" alt="MIT license" /></a>
+  <a href="https://bun.sh"><img src="https://img.shields.io/badge/Bun-%E2%89%A51.3.14-fbf0df?style=flat-square&amp;labelColor=0b1c25" alt="Bun 1.3.14 or newer" /></a>
+</p>
+
+**See what your Claude workflows are doing—and what they cost.** Observer brings live runs, session totals and recorded evidence from multiple projects into one local web app.
+
+<p align="center">
+  <a href="#start">Quick start</a> ·
+  <a href="#see-it-in-action">Screenshots</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="#usage-and-reference">Reference</a> ·
+  <a href="https://github.com/malhashemi/workflow-observer/blob/main/CONTRIBUTING.md">Contribute</a>
+</p>
+
+- **Follow the whole session.** Group workflows by recorded session name, with separate costs for the parent conversation and agents.
+- **See the plan and the work.** Browse declared phases and resolvable planned models, then expand live agent details in place.
+- **Check the evidence.** Inspect exact model IDs, token usage, pricing, highlighted source and recorded edits.
+- **Take it with you.** Open on your phone through Tailscale or your local network, with QR links to individual workflows.
+
+Observer reads compatible **Claude Workflow tool** artifacts across configurable profiles. Your workflow content stays on your machine; the app works with the bundled model catalog when offline.
 
 ## Start
 
@@ -10,7 +36,15 @@ bunx workflow-observer
 
 The command starts the local companion and opens **http://127.0.0.1:4319**. If it is already running with the same config, it opens the existing app. No Node runtime or API key is needed. Keep the foreground process running, or use `--background`.
 
-**Distribution status:** this checkout is registered locally with `bun link`, so the command works on this computer. It has not been published to npm. To use another checkout, run `bun install && bun run build && bun link` there first. A release tarball can also be installed locally; a registry release is needed for a bare `bunx workflow-observer` on a fresh computer.
+Requires [Bun 1.3.14 or newer](https://bun.sh). Observer discovers `~/.claude` by default. Add more profiles in **Settings → Sources / Models**. The library opens to the last seven days; switch to 24 hours, 30 days or 90 days when needed.
+
+Prefer a global command?
+
+```sh
+bun add --global workflow-observer
+workflow-observer
+workflow-observer update
+```
 
 ```sh
 bunx workflow-observer --background
@@ -19,7 +53,57 @@ bunx workflow-observer stop
 bunx workflow-observer --config ~/my-observer.json --port 4320
 ```
 
-On macOS, **Open Workflow Observer.command** provides a double-click launcher. No browser installation or public hosting is needed. The companion serves the interface and reads local workflow evidence; it must be running to open the app.
+The companion must remain running to serve the app and read local evidence. A source checkout also includes a macOS double-click launcher, **Open Workflow Observer.command**, available after building.
+
+## See it in action
+
+### One view across projects and sessions
+
+Find the active run, revisit finished work and see session-level token and API cost estimates without switching between Claude profiles.
+
+![Workflow library grouped by named sessions, with recorded tokens and estimated session costs](https://raw.githubusercontent.com/malhashemi/workflow-observer/main/docs/assets/library.png)
+
+### From a phase to its evidence
+
+Keep the workflow in view while inspecting an agent's model, progress, usage and output. Future phases show source-declared plans where the recorded arguments can resolve them.
+
+![Workflow detail with phases, models and an expanded agent](https://raw.githubusercontent.com/malhashemi/workflow-observer/main/docs/assets/workflow.png)
+
+<details>
+<summary><strong>On your phone, too</strong></summary>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/malhashemi/workflow-observer/main/docs/assets/mobile.png" alt="Workflow Observer on mobile with its bottom navigation drawer open" width="360" />
+</p>
+
+Enable **Settings → Access → Tailscale** or local-network access, choose your default sharing address, and open **Share** to scan the QR code. Both devices must be able to reach that network.
+
+</details>
+
+Screenshots use synthetic demo workflows, not private session data. Costs are API-equivalent estimates at catalog rates, not subscription charges or invoices. Missing evidence and unpriced requests remain explicit.
+
+## How it works
+
+One Bun process serves the React interface and indexes local evidence in SQLite. Effect manages discovery, settings updates and browser observation; OXC checks and formats the code.
+
+```mermaid
+flowchart LR
+    A["Claude profiles<br/>Workflow artifacts + transcripts"] -->|Incremental reads| B["Bun companion<br/>Effect lifecycles"]
+    B <-->|Evidence + index| C[(SQLite)]
+    D["Models.dev<br/>Metadata + prices"] -->|Cached catalog| B
+    B -->|Confirmed snapshots| E["React interface<br/>Desktop + mobile"]
+    classDef local fill:#0b1c25,stroke:#3eebff,color:#fcfcfc
+    class A,B,C,E local
+```
+
+Observer leaves Claude's files untouched and analyzes workflow source without executing it. If a transcript disappears or becomes unreadable, its cached content is hidden and its usage is excluded. A fresh browser load confirms the current index before showing saved content.
+
+## Usage and reference
+
+<details>
+<summary><strong>Configuration, sharing, model matching, accounting and architecture</strong></summary>
+
+The sections below document the current behavior and its limits.
 
 ## Access, sharing and tool actions
 
@@ -42,10 +126,9 @@ workflow-observer --version
 workflow-observer update --check
 workflow-observer update
 workflow-observer restart --background --no-open
-bun run test:package
 ```
 
-`update` supports verified Bun/npm global installations. It stages and validates the selected published release before invoking the original package manager, then reports installation and companion restart separately. A development link is updated through its checkout; a bunx execution can select `bunx workflow-observer@latest` after publication. The current checkout remains unpublished, so it cannot upgrade itself from a registry release yet. Settings → Updates distinguishes the installed package, running companion and checked latest version.
+`update` supports verified Bun/npm global installations. It stages and validates the selected published release before invoking the original package manager, then reports installation and companion restart separately. A development link is updated through its checkout; a bunx execution can select `bunx workflow-observer@latest`. Settings → Updates distinguishes the installed package, running companion and checked latest version.
 
 Each companion serves an immutable runtime snapshot under its data directory. Installing another package version cannot remove its active browser chunks. Starting the same build reuses the companion; a different build asks for an explicit `restart`. A newer running version cannot be silently downgraded. One process owns a data directory's index, with a process-lifetime SQLite lock coordinating simultaneous starts. Shutdown waits for in-flight indexing, and CLI control checks the instance UUID instead of signaling an unverified PID. Runtime release snapshots are retained on disk; this release does not automatically prune them.
 
@@ -196,10 +279,12 @@ Browser storage lives behind the module. The cache head has an opaque transactio
 
 Tests exercise the observation interface with controlled HTTP responses and real IndexedDB transactions through `fake-indexeddb`. Workflow assembly, session accounting and the transcript deletion policy remain in their existing modules.
 
+</details>
+
 ## Development and packaging
 
 ```sh
-bun install
+bun install --frozen-lockfile
 bun run build
 bun link
 bun test
@@ -211,4 +296,14 @@ bun run test:package # Read-only packaged runtime, isolated config/data, launch/
 
 The package ships prebuilt CLI/server files and browser assets, including local fonts. Runtime dependencies are bundled; development packages are not needed when executing the packed app. The package allowlist excludes transcripts, local snapshots, SQLite, logs, config files and the design playground.
 
-The interface follows the Agent964 design system and the Balanced playground direction. The static analyzer retains the ultracode-workflows MIT license and Acorn attribution under `vendor/ultracode`. Bundled dependency notices are in `THIRD_PARTY_LICENSES.txt`.
+The interface follows the Agent964 design system and the Balanced playground direction, using Space Grotesk and Geist under the SIL Open Font License. Font notices ship with the assets. The static analyzer retains the ultracode-workflows MIT license and Acorn attribution under `vendor/ultracode`. Bundled dependency notices are in `THIRD_PARTY_LICENSES.txt`.
+
+## Contributing and releases
+
+Bug reports and focused PRs are welcome. See [CONTRIBUTING.md](https://github.com/malhashemi/workflow-observer/blob/main/CONTRIBUTING.md) for local setup and checks. Run `bun run demo` for an isolated workspace with synthetic workflows.
+
+CI uses **Blacksmith runners**. To release, run `bun run release:prepare patch` on your PR branch and commit the version changes. Merging to `main` runs checks, publishes the tested npm archive and creates a GitHub release. Merges without a new version skip publishing. The [release guide](https://github.com/malhashemi/workflow-observer/blob/main/docs/releasing.md) covers setup and retries.
+
+## License
+
+[MIT](https://github.com/malhashemi/workflow-observer/blob/main/LICENSE) © Agent964. Bundled dependencies, fonts and the vendored analyzer retain their own license notices.

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="520" viewBox="0 0 1280 520" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Workflow Observer</title>
+  <desc id="desc">A local view of your Claude workflows, from planned phases to recorded evidence. Start with bunx workflow-observer.</desc>
+  <defs>
+    <radialGradient id="halo"><stop stop-color="#3EEBFF" stop-opacity=".12"/><stop offset="1" stop-color="#3EEBFF" stop-opacity="0"/></radialGradient>
+    <linearGradient id="edge"><stop stop-color="#3EEBFF" stop-opacity="0"/><stop offset=".5" stop-color="#3EEBFF" stop-opacity=".65"/><stop offset="1" stop-color="#3EEBFF" stop-opacity="0"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" stroke="#A0B2B9" stroke-opacity=".045"/></pattern>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>
+  <rect width="1280" height="520" rx="20" fill="#031119"/>
+  <rect x=".5" y=".5" width="1279" height="519" rx="19.5" stroke="#203640"/>
+  <rect x="640" y="1" width="620" height="518" fill="url(#grid)"/>
+  <ellipse cx="979" cy="260" rx="365" ry="310" fill="url(#halo)"/>
+  <path d="M120 1H1160" stroke="url(#edge)"/>
+  <g font-family="Geist, Inter, Arial, sans-serif">
+    <g stroke="#3EEBFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M65 65V88H89M65 65H89"/>
+      <rect x="59" y="59" width="12" height="12" rx="2" fill="#031119"/>
+      <rect x="89" y="59" width="12" height="12" rx="2" fill="#031119"/>
+      <rect x="89" y="82" width="12" height="12" rx="2" fill="#031119"/>
+    </g>
+    <text x="121" y="80" font-family="Geist Mono, monospace" font-size="12" letter-spacing="3" fill="#99AFB7">AGENT964 / OPEN SOURCE</text>
+    <text x="56" y="184" font-size="76" letter-spacing="-4" font-weight="500" fill="#FCFCFC">Workflow</text>
+    <text x="56" y="263" font-size="76" letter-spacing="-4" font-weight="500" fill="#FCFCFC">Observer<tspan fill="#3EEBFF">.</tspan></text>
+    <text x="61" y="311" font-size="19" fill="#A0B5BD">Follow the work. Understand the cost.</text>
+    <text x="61" y="338" font-size="19" fill="#A0B5BD">Trace it back to the evidence.</text>
+    <rect x="60" y="376" width="369" height="53" rx="9" fill="#0B1C25" stroke="#253D46"/>
+    <text x="80" y="409" font-family="Geist Mono, monospace" font-size="17" fill="#FCFCFC"><tspan fill="#3EEBFF">$ </tspan>bunx workflow-observer</text>
+    <text x="61" y="476" font-family="Geist Mono, monospace" font-size="11" letter-spacing="1.7" fill="#6E8A96">LOCAL FIRST · BUN · REACT · SQLITE · EFFECT</text>
+    <g stroke="#31505C" stroke-width="1.5">
+      <path d="M947 141V173M947 173H822V214M947 173H1072V214"/>
+      <path d="M822 298V331H947V366M1072 298V331H947" stroke-dasharray="4 6"/>
+    </g>
+    <path d="M947 141V173H822V214M947 173H1072V214" stroke="#3EEBFF" stroke-opacity=".15" stroke-width="6" filter="url(#glow)"/>
+    <circle cx="947" cy="173" r="3" fill="#3EEBFF"/>
+    <rect x="777" y="57" width="340" height="84" rx="12" fill="#091A22" stroke="#29404A"/>
+    <text x="799" y="83" font-family="Geist Mono, monospace" font-size="10" letter-spacing="2" fill="#6F909D">01 / EXPLORE</text>
+    <text x="799" y="112" font-size="18" fill="#FCFCFC">A shared understanding</text>
+    <circle cx="1089" cy="100" r="10" stroke="#58DB85"/>
+    <path d="m1084 100 3 3 6-7" stroke="#58DB85" stroke-width="1.5"/>
+    <text x="703" y="197" font-family="Geist Mono, monospace" font-size="10" letter-spacing="2" fill="#77A3AF">02 / BUILD IN PARALLEL</text>
+    <rect x="703" y="214" width="238" height="84" rx="12" fill="#0B2029" stroke="#3EEBFF" stroke-opacity=".6"/>
+    <rect x="953" y="214" width="238" height="84" rx="12" fill="#0B2029" stroke="#3EEBFF" stroke-opacity=".6"/>
+    <text x="724" y="245" font-size="17" fill="#FCFCFC">API implementation</text>
+    <text x="974" y="245" font-size="17" fill="#FCFCFC">Interface implementation</text>
+    <circle cx="728" cy="274" r="3" fill="#3EEBFF"/>
+    <circle cx="978" cy="274" r="3" fill="#3EEBFF"/>
+    <text x="740" y="278" font-family="Geist Mono, monospace" font-size="10" letter-spacing="1" fill="#3EEBFF">RUNNING</text>
+    <text x="990" y="278" font-family="Geist Mono, monospace" font-size="10" letter-spacing="1" fill="#3EEBFF">RUNNING</text>
+    <rect x="777" y="366" width="340" height="84" rx="12" fill="#091A22" stroke="#29404A"/>
+    <text x="799" y="392" font-family="Geist Mono, monospace" font-size="10" letter-spacing="2" fill="#6F909D">03 / REVIEW</text>
+    <text x="799" y="421" font-size="18" fill="#A0B5BD">Independent verification</text>
+    <circle cx="1089" cy="409" r="9" stroke="#4B6773" stroke-dasharray="3 4"/>
+  </g>
+</svg>

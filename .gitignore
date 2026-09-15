@@ -1,0 +1,17 @@
+node_modules/
+.local/
+dist/
+design-playground.html
+.DS_Store
+*.tgz
+observer.config.json
+
+# Local review artifacts may contain private workflow evidence.
+QA.md
+design/
+.env
+.env.*
+.npmrc
+*.sqlite
+*.sqlite-*
+*.log
