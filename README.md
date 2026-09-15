@@ -302,7 +302,7 @@ The interface follows the Agent964 design system and the Balanced playground dir
 
 Bug reports and focused PRs are welcome. See [CONTRIBUTING.md](https://github.com/malhashemi/workflow-observer/blob/main/CONTRIBUTING.md) for local setup and checks. Run `bun run demo` for an isolated workspace with synthetic workflows.
 
-CI uses **Blacksmith runners**. To release, run `bun run release:prepare patch` on your PR branch and commit the version changes. Merging to `main` runs checks, publishes the tested npm archive and creates a GitHub release. Merges without a new version skip publishing. The [release guide](https://github.com/malhashemi/workflow-observer/blob/main/docs/releasing.md) covers setup and retries.
+Builds and tests use **Blacksmith runners**. A small GitHub-hosted job publishes through **npm trusted publishing**, with provenance and no stored npm token. To release, run `bun run release:prepare patch` on your PR branch and commit the version changes. Merging to `main` runs checks, publishes the tested npm archive and creates a GitHub release. Merges without a new version skip publishing. The [release guide](https://github.com/malhashemi/workflow-observer/blob/main/docs/releasing.md) covers setup and retries.
 
 ## License
 
