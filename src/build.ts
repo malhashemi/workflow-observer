@@ -38,6 +38,8 @@ console.log(`Built server, CLI and ${files.length} browser assets.`);
 
 const pkg = await Bun.file(join(root, "package.json")).json();
 const hash = createHash("sha256");
+// A version-only release must not reuse an older runtime's package metadata.
+hash.update(JSON.stringify([pkg.name, pkg.version]));
 for (const file of ["cli.js", "server.js", ...files.sort().map((f) => "client" + f)])
   hash.update(
     await Bun.file(join(out, file))
